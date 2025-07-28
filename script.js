@@ -39,8 +39,7 @@ function calculate() {
     
     // 计算每日收益
     const dailyReturn = capital * rate; // 实际每日收益，考虑复投后的资本
-    // 回本计算使用初始每日收益，确保独立于复投
-    totalReturn += initialDailyReturn;
+    totalReturn += initialDailyReturn; // 回本计算使用初始每日收益
     extractedReturn += dailyReturn; // 提取收益使用实际每日收益
     capital -= dailyReturn; // 收益从资本中扣除
 
@@ -68,8 +67,7 @@ function calculate() {
     `回本所需天数（累计收益达到 $${initial.toFixed(2)}）：${firstBreakEvenDays || days} 天\n` +
     `达到每日返利 $${target.toFixed(2)} 需要 ${days} 天\n` +
     `共复投 ${reinvests} 次\n` +
-    `最终资本：$${capital.toFixed(2)}\n` +
-    `累计提取收益：$${extractedReturn.toFixed(2)}`;
+    `最终资本：$${capital.toFixed(2)}`;
 
   // 绘制图表
   const ctx = document.getElementById('capitalChart').getContext('2d');
