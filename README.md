@@ -28,3 +28,15 @@
 - Service Worker（PWA 功能）
 
 ## 文件结构
+MyFirst/
+├── index.html          # 主页面，包含横幅和计算逻辑
+├── style.css          # 页面样式
+├── script.js          # 计算逻辑和图表
+├── manifest.json      # PWA 配置
+├── sw.js              # Service Worker，支持离线访问
+├── logo.png           # 横幅图片
+├── icons/
+│   ├── icon.png       # PWA 图标（192x192）
+│   └── icon-512x512.png  # PWA 图标（512x512，可选）
+├── README.md          # 项目说明
+└── LICENSE            # MIT 许可证
