@@ -1,84 +1,34 @@
-
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>复利计算器</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2em;
-      background: #f0f4f8;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 2em;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    label {
-      display: block;
-      margin-top: 1em;
-    }
-    input {
-      width: 100%;
-      padding: 0.5em;
-      font-size: 1em;
-    }
-    button {
-      margin-top: 1em;
-      padding: 0.75em;
-      width: 100%;
-      background-color: #007bff;
-      color: white;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 1.5em;
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#00cc66" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icon.png" />
+  <title>返利计算器</title>
 </head>
 <body>
-  <div class="container">
-    <h2>复利计算器</h2>
-    
-    <label for="initial">初始本金（美元）:</label>
-    <input type="number" id="initial" value="1000">
-
-    <label for="rate">日收益率（%）:</label>
-    <input type="number" id="rate" value="1">
-
-    <label for="targetDailyIncome">目标每日返利（美元）:</label>
-    <input type="number" id="targetDailyIncome" value="100">
-
-    <button onclick="calculate()">开始计算</button>
-
-    <div id="result"></div>
-  </div>
-
+  <header>
+    <img src="logo.png" alt="Logo" />
+  </header>
+  <main>
+    <h1>返利计算器</h1>
+    <p>初始投资金额（美元）</p>
+    <input id="initial" type="number" value="100" />
+    <p>每日返还利率（如 0.0005）</p>
+    <input id="rate" type="number" value="0.0005" step="0.0001" />
+    <p>杠杆倍数（如11）</p>
+    <input id="leverage" type="number" value="11" />
+    <button onclick="calculate()">计算</button>
+    <h2>结果</h2>
+    <p id="output">点击上方按钮计算。</p>
+  </main>
+  <script src="script.js"></script>
   <script>
-    function calculate() {
-      const initial = parseFloat(document.getElementById("initial").value);
-      const rate = parseFloat(document.getElementById("rate").value) / 100;
-      const targetDailyIncome = parseFloat(document.getElementById("targetDailyIncome").value);
-
-      let balance = initial;
-      let days = 0;
-
-      while ((balance * rate) < targetDailyIncome) {
-        balance *= (1 + rate);
-        days++;
-        if (days > 10000) break; // 防止死循环
-      }
-
-      document.getElementById("result").innerHTML =
-        `你需要约 <strong>${days}</strong> 天，使每天收益达到 <strong>${targetDailyIncome}</strong> 美元。<br>那时你的总本金约为 <strong>${balance.toFixed(2)}</strong> 美元。`;
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
     }
   </script>
 </body>
