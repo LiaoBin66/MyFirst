@@ -20,7 +20,7 @@ function calculate() {
 
   // 初始化变量
   let capital = initial * leverage; // 杠杆后总资本
-  let totalReturn = 0; // 所有每日收益总和
+  let totalReturn = 0; // 所有每日收益总和，用于回本计算
   let extractedReturn = 0; // 复投后剩余的提取收益
   let days = 0; // 投资天数
   let reinvests = 0; // 复投次数
@@ -36,23 +36,25 @@ function calculate() {
       return;
     }
     
-    const dailyReturn = capital * rate; // 当日收益
+    // 计算每日收益
+    const dailyReturn = capital * rate;
     totalReturn += dailyReturn; // 累积所有收益
     extractedReturn += dailyReturn; // 累积提取收益
     capital -= dailyReturn; // 收益从资本中扣除
 
-    // 检查是否回本（累计收益接近初始本金，允许1美元误差）
+    // 检查回本（独立于目标返利）
     if (firstBreakEvenDays === null && totalReturn >= initial - 1) {
       firstBreakEvenDays = days + 1; // 记录回本天数
     }
 
-    // 检查是否可以复投
+    // 检查复投（依赖目标返利）
     if (extractedReturn >= target) {
       const reinvestTimes = Math.floor(extractedReturn / target);
       capital += reinvestTimes * target * leverage; // 复投增加资本
       extractedReturn -= reinvestTimes * target; // 扣除复投金额
       reinvests += reinvestTimes;
     }
+
     days++;
     labels.push(days);
     capitalData.push(capital.toFixed(2));
@@ -65,7 +67,7 @@ function calculate() {
     `达到每日返利 $${target.toFixed(2)} 需要 ${days} 天\n` +
     `共复投 ${reinvests} 次\n` +
     `最终资本：$${capital.toFixed(2)}\n` +
-    `累计收益：$${extractedReturn.toFixed(2)}`;
+    `累计提取收益：$${extractedReturn.toFixed(2)}`;
 
   // 绘制图表
   const ctx = document.getElementById('capitalChart').getContext('2d');
