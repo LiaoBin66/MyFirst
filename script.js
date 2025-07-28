@@ -69,9 +69,14 @@ function calculate() {
     `共复投 ${reinvests} 次\n` +
     `最终资本：$${capital.toFixed(2)}`;
 
-  // 绘制图表
+  // 销毁旧图表实例
   const ctx = document.getElementById('capitalChart').getContext('2d');
-  new Chart(ctx, {
+  if (window.chartInstance) {
+    window.chartInstance.destroy();
+  }
+
+  // 绘制新图表
+  window.chartInstance = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
