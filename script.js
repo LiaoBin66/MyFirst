@@ -20,6 +20,7 @@ function calculate() {
 
   // 初始化变量
   let capital = initial * leverage; // 杠杆后总资本
+  const initialDailyReturn = initial * leverage * rate; // 初始每日收益，用于回本计算
   let totalReturn = 0; // 所有每日收益总和，用于回本计算
   let extractedReturn = 0; // 复投后剩余的提取收益
   let days = 0; // 投资天数
@@ -37,12 +38,13 @@ function calculate() {
     }
     
     // 计算每日收益
-    const dailyReturn = capital * rate;
-    totalReturn += dailyReturn; // 累积所有收益
-    extractedReturn += dailyReturn; // 累积提取收益
+    const dailyReturn = capital * rate; // 实际每日收益，考虑复投后的资本
+    // 回本计算使用初始每日收益，确保独立于复投
+    totalReturn += initialDailyReturn;
+    extractedReturn += dailyReturn; // 提取收益使用实际每日收益
     capital -= dailyReturn; // 收益从资本中扣除
 
-    // 检查回本（独立于目标返利）
+    // 检查回本（基于初始每日收益）
     if (firstBreakEvenDays === null && totalReturn >= initial - 1) {
       firstBreakEvenDays = days + 1; // 记录回本天数
     }
